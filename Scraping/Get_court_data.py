@@ -79,6 +79,32 @@ def get_captcha_text():
         import traceback
         traceback.print_exc()
         return None
+def get_values_from_dropdown(select_from):
+    """
+    Get all states and their codes from the dropdown menu.
+    Returns a dictionary mapping state codes to state names.
+    """
+    values = {}
+    try:
+        
+        # Get all option elements
+        options = select_from.find_elements(By.TAG_NAME, "option")
+        print(options)
+        
+        # Extract state codes and names, skipping the first "Select state" option
+        for option in options[1:]:  # Skip first option
+            value = option.get_attribute("value")
+            text = option.text
+            if value and value != "0":  # Skip empty or zero values
+                values[value] = text
+                print(f"Found state: {text} (Code: {value})")
+    
+    except Exception as e:
+        print(f"Error getting states from dropdown: {str(e)}")
+        return {}
+    
+    print(f"Total states found: {len(states)}")
+    return values
 
 def check_and_close_modal():
     """
@@ -146,7 +172,9 @@ def access_court_services(act_name="Indian Penal Code", section_number="376"):
         try:
             # State selection
             select_state = wait.until(EC.presence_of_element_located((By.ID, "sess_state_code")))
-            Select(select_state).select_by_value("18")
+            states = get_values_from_dropdown(select_state)
+            print("State selection" + str(states))
+            Select(select_state).select_by_visible_text("18")
             time.sleep(1)
             check_and_close_modal()
 
