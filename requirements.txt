@@ -1,6 +1,6 @@
 regex
-base64
-PIL
+pillow
 csv
 time
 selenium
+pybase64
