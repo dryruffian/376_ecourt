@@ -1,4 +1,4 @@
-re
+regex
 base64
 PIL
 csv
