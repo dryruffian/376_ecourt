@@ -1,6 +1,6 @@
 regex
 pillow
-csv
-time
+python-csv
 selenium
 pybase64
+pytesseract
